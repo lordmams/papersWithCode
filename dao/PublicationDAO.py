@@ -21,6 +21,15 @@ class PublicationDAO(ModelDAO.modeleDAO):
 
     def findAll(self)->list:
         pass
+    
+    def findByCity(self, city)->list:
+        pass
+
+    def findByCategory(self, category)->object:
+        pass
+    
+    def findByLink(self, link)->object:
+        pass
 
     # UPDATE
 
