@@ -1,7 +1,7 @@
 from dao.CategoryDAO import *
 from model import *
 
-class Publications:
+class Category:
 
     def getCategories():
         pass

@@ -15,48 +15,49 @@ class CategoryDAO(ModelDAO.modeleDAO):
 
 
     # SELECT
-    def findById(self, category)->object:
+    def findById(self, category_id)->Category:
         try:
             query = '''SELECT * FROM category where category_id=%s;'''
-            self.cur.execute(query, (category,))
+            self.cur.execute(query, (category_id,))
             res = self.cur.fetchone()
 
             if res:
 
                 r = Category()
+                print(res)
+                r.setCategoryId(res[0].id)
+                r.setCategoryName(res[0].name)
 
-                b.setCategoryId(res[0])
 
-
-                return b
+                return r
             else:
                 return None
-    except Exception as e:
-        print(f"Erreur_CategoryDAO.findById() ::: {e}")
-    finally:
-        self.cur.close()
+        except Exception as e:
+            print(f"Erreur_CategoryDAO.findById() ::: {e}")
+        finally:
+            self.cur.close()
 
         pass
 
 
-    def findByName(self)->list[Category]:
+    def findByName(self)->Category:
 
             try:
                 query = '''SELECT * FROM category where category_name=%s;'''
                 self.cur.execute(query)
                 res = self.cur.fetchall()
-                liste_c=[]
+         
 
-                if len(res)>0:
+                if res:
                     for r in res:
                         c = Category()
 
-                        b.setCategoryIdId(r[0])
-                        b.setCategoryName(r[1])
+                        c.setCategoryId(res[0])
+                        c.setCategoryName(res[1])
 
-                        liste_c.append(c)
 
-                    return liste_c
+
+                    return c
                 else:
                     return None
             except Exception as e:
@@ -68,10 +69,10 @@ class CategoryDAO(ModelDAO.modeleDAO):
     # UPDATE
 
 
-    def update(self, category)->int:
+    def update(self, catModif,category_id)->int:
         try:
-            query = '''UPDATE Category SET Category_name = %s, WHERE category_id = %s;'''
-            self.cur.execute(query, (objModif.getCategoryName(), cleAnc))
+            query = '''UPDATE Category SET Category_name = %s, WHERE id = %s;'''
+            self.cur.execute(query, (catModif.getCategoryName(), category_id))
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
@@ -84,10 +85,10 @@ class CategoryDAO(ModelDAO.modeleDAO):
     # DELETE
 
 
-    def deleteById(self, category)->int:
+    def deleteById(self, category_id)->int:
         try:
-            query = f'''DELETE FROM category WHERE category_id = %s;'''
-            self.cur.execute(query, (cleSup,))
+            query = f'''DELETE FROM category WHERE id = %s;'''
+            self.cur.execute(query, (category_id,))
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
@@ -98,10 +99,10 @@ class CategoryDAO(ModelDAO.modeleDAO):
         pass
 
 
-    def deleteAll(self)->int:
+    def deleteAll(self,category_id)->int:
         try:
-            query = f'''DELETE FROM category WHERE category_id = %s;'''
-            self.cur.execute(query, (cleSup,))
+            query = f'''DELETE FROM category WHERE id = %s;'''
+            self.cur.execute(query, (category_id,))
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:

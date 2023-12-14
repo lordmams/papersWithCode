@@ -16,7 +16,7 @@ class Category:
 
         return self.__category_id
 
-    def setCategorytName(self, categoryName: str) -> None:
+    def setCategoryName(self, categoryName: str) -> None:
 
         self.__category_name = categoryName
 
