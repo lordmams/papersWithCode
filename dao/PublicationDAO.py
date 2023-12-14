@@ -12,9 +12,9 @@ class PublicationDAO(ModelDAO.modeleDAO):
 
     def create(self, publication)->int:
         try:
-            query = '''INSERT INTO  (publication_id, publication_city, publication_link) 
+            query = '''INSERT INTO  (id, city,link) 
                        VALUES (%s, %s, %s);'''
-            self.cur.execute(query, (objIns.getPublicationId(), objIns.getPublicationCity(), objIns.getPublicationLink()))
+            self.cur.execute(query, (publication.getPublicationId(), publication.getPublicationCity(), publication.getPublicationLink()))
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
@@ -26,10 +26,10 @@ class PublicationDAO(ModelDAO.modeleDAO):
 
 
     # SELECT
-    def findById(self, publicationId)->object:
+    def findById(self, publicationId)->Publication:
         try:
-            query = '''SELECT * FROM publication WHERE publication_id = %s;'''
-            self.cur.execute(query, (cleTrouv,))
+            query = '''SELECT * FROM publication WHERE id = %s;'''
+            self.cur.execute(query, (publicationId,))
             res = self.cur.fetchone()
 
             if res:
@@ -79,10 +79,10 @@ class PublicationDAO(ModelDAO.modeleDAO):
         finally:
             self.cur.close()
     
-    def findByCity(self, city)->list:
+    def findByCity(self, city_id)->list:
         try:
-            query = '''SELECT * FROM publication where publication_city=%s;'''
-            self.cur.execute(query)
+            query = '''SELECT * FROM publication where city=%s;'''
+            self.cur.execute(query, (city_id,))
             res = self.cur.fetchall()
 
             liste_b = [] # [Brands(brand_id=row[0], brand_name=row[1]) for row in res] if res else None
@@ -114,8 +114,8 @@ class PublicationDAO(ModelDAO.modeleDAO):
     
     def findByLink(self, link)->object:
         try:
-            query = '''SELECT * FROM publication WHERE publication_link = %s;'''
-            self.cur.execute(query, (publication_link,))
+            query = '''SELECT * FROM publication WHERE link = %s;'''
+            self.cur.execute(query, (link,))
             res = self.cur.fetchone()
 
             if res:
@@ -141,8 +141,8 @@ class PublicationDAO(ModelDAO.modeleDAO):
 
     def update(self, publication)->int:
         try:
-            query = '''UPDATE publication SET publication_city = %s, publication_link='%s' WHERE brand_id = %s;'''
-            self.cur.execute(query, (objModif.getPublicationCity(), cleAnc))
+            query = '''UPDATE publication SET city = %s, link='%s' WHERE id = %s;'''
+            self.cur.execute(query, (publication.getPublicationCity(), publication.getPublicationId()))
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
@@ -156,8 +156,8 @@ class PublicationDAO(ModelDAO.modeleDAO):
 
     def deleteById(self, publicationId)->int:
         try:
-            query = f'''DELETE FROM publication WHERE publication_id = %s;'''
-            self.cur.execute(query, (cleSup,))
+            query = f'''DELETE FROM publication WHERE id = %s;'''
+            self.cur.execute(query, (publicationId,))
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
