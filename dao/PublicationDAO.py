@@ -170,7 +170,7 @@ class PublicationDAO(ModelDAO.modeleDAO):
     def deleteAll(self)->int:
         try:
             query = f'''DELETE FROM publication;'''
-            self.cur.execute(query, (cleSup,))
+            self.cur.execute(query,)
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:

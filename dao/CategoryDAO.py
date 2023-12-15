@@ -101,7 +101,7 @@ class CategoryDAO(ModelDAO.modeleDAO):
 
     def deleteAll(self,category_id)->int:
         try:
-            query = f'''DELETE FROM category WHERE id = %s;'''
+            query = f'''DELETE FROM category;'''
             self.cur.execute(query, (category_id,))
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
