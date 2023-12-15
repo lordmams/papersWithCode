@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-#from dao.ConnexionDAO import ConnexionBD
+from dao.ConnexionDAO import ConnexionBD
 
 class modeleDAO(ABC):
 
-    #connect_objet = ConnexionBD().getConnexion()
+    connect_object = ConnexionBD().getConnexion()
 
     ### CRUD
 

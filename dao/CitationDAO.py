@@ -12,7 +12,7 @@ class CitationDAO(ModelDAO.modeleDAO):
         try:
             query = '''INSERT INTO citation (citation_id, citation_value) 
                        VALUES (%s, %s);'''
-            self.cur.execute(query, (objIns.geCitationId(), objIns.getCitationValue()))
+            self.cur.execute(query, (citation.geCitationId(), citation.getCitationValue()))
             self.cur.connection.commit() #fin de la transaction
             #le nombre de lignes validé par la dernière opération SQL exécutée.
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
@@ -83,10 +83,10 @@ class CitationDAO(ModelDAO.modeleDAO):
     # UPDATE
 
 
-    def update(self, citationId)->int:
+    def update(self, citModif, citation_id)->int:
         try:
             query = '''UPDATE publication SET citation_value = %s WHERE citation_id = %s;'''
-            self.cur.execute(query, (objModif.getCitationValue(), cleAnc))
+            self.cur.execute(query, (citModif.getCitationValue(), citation_id))
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
@@ -101,7 +101,7 @@ class CitationDAO(ModelDAO.modeleDAO):
     def deleteById(self, citationId)->int:
         try:
             query = f'''DELETE FROM citation WHERE citation_id = %s;'''
-            self.cur.execute(query, (cleSup,))
+            self.cur.execute(query, (citationId,))
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
@@ -114,7 +114,7 @@ class CitationDAO(ModelDAO.modeleDAO):
     def deleteAll(self)->int:
         try:
             query = f'''DELETE FROM citation;'''
-            self.cur.execute(query, (cleSup,))
+            self.cur.execute(query,)
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
