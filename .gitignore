@@ -3,10 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-config/config.yaml
+
 # C extensions
 *.so
-
+config/config.yaml
 # Distribution / packaging
 .Python
 build/
