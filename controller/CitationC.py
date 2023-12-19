@@ -1,19 +1,81 @@
 from dao.CitationDAO import *
-from model import *
+from model import CitationM
 
 class Citations:
 
+    @staticmethod
     def getCitations():
-        pass
+        try:
+            citation_dao = CitationDAO()
+            citations = citation_dao.findAll()
+            return citations
+        except Exception as e:
+            print(f'Error_Citations.getCitations() ::: {e}')
+    @staticmethod
+    def getCitation(citationId):
+        try:
+            citation_dao = CitationDAO()
+            citation = citation_dao.findById(citationId)
+            return citation
+        except Exception as e:
+            print(f'Error_Citations.getCitation() ::: {e}')
+    @staticmethod
+    def addCitation(citationPublication):
+        try:
+            citation_dao = CitationDAO()
+            new_citation = CitationM.Citation()
+            new_citation.setCitationPublication(citationPublication)
+            result = citation_dao.create(new_citation)
 
-    def getCitation(self,citationId):
-        pass
+            if result!= 0:
+                return "Citation added successfully"
+            else:
+                return "Error adding citation"
 
-    def addCitation(self, citationValue):
-        pass
+        except Exception as e:
+            print(f'Error_Citations.addCitation() ::: {e}')
+    @staticmethod
+    def updateCitation( citationPublication, citationId):
+        try:
+            citation = CitationDAO.findById(citationId)
+            citation.setCitationPublication(citationPublication)
+            result = CitationDAO().update(citation)
 
-    def updateCitation(self, citationValue):
-        pass
+            if result!= 0:
+                return "Citation updated successfully"
+            else:
+                return "Error updating citation"
 
-    def delateCitation(self,citationId):
-        pass
+        except Exception as e:
+            print(f'Error_Citations.updateCitation() ::: {e}')
+
+    @staticmethod
+    def deleteCitation(citationId):
+        try:
+            result = CitationDAO().deleteById(citationId)
+
+            if result!= 0:
+                return "Citation deleted successfully"
+            else:
+                return "Error deleting citation"
+
+        except Exception as e:
+            print(f'Error_Citations.delateCitation() ::: {e}')
+
+    @staticmethod
+    def getCitationsNodes(citationId):
+        try:
+            citation_dao = CitationDAO()
+            citations = citation_dao.findCitationsNodes(citationId)
+            return citations
+        except Exception as e:
+            print(f'Error_Citations.getCitationsNodes() ::: {e}')
+
+    @staticmethod
+    def getCompareCitation(citationId,compareCitationId):
+        try:
+            citation_dao = CitationDAO()
+            citation = citation_dao.findCompareCitations(citationId,compareCitationId)
+            return citation
+        except Exception as e:
+            print(f'Error_Citations.getCompareCitations() ::: {e}')
