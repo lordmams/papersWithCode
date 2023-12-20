@@ -24,7 +24,7 @@ class References:
     @staticmethod
     def update(referenceId,referencePublication):
         try:
-            reference = ReferencesDAO.findById(referenceId)
+            reference = ReferencesDAO().findById(referenceId)
             reference.setReference(referencePublication)
             result = ReferencesDAO().update(reference)
 

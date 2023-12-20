@@ -90,3 +90,15 @@ class Category:
 
         except Exception as e:
             print(f'Error_Publications.deleteCategory() ::: {e}')
+
+    @staticmethod
+    def getCategoryByName(category_name)->object:
+        try:
+            category_dao = CategoryDAO()
+            category = category_dao.findByName(category_name)
+
+            return category
+        except Exception as e:
+            print(f'Error_Publications.getCategoryByName() ::: {e}')
+        finally:
+            category_dao.cur.close()

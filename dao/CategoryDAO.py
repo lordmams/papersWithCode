@@ -42,18 +42,12 @@ class CategoryDAO(ModelDAO.modeleDAO):
         try:
             query = '''SELECT * FROM categorie WHERE name = %s;'''
             self.cur.execute(query, (category_name,))
-            res = self.cur.fetchall()
-
-            category_list = []
-
-            if len(res) > 0:
-                for r in res:
-                    category = Category()
-                    category.setCategoryId(r[0])
-                    category.setCategoryName(r[1])
-                    category_list.append(category)
-
-                return category_list
+            res = self.cur.fetchone() 
+            if res: 
+                category = Category()
+                category.setCategoryId(res[0])
+                category.setCategoryName(res[1])
+                return category
             else:
                 return None
         except Exception as e:
@@ -117,7 +111,7 @@ class CategoryDAO(ModelDAO.modeleDAO):
     def deleteAll(self) -> int:
      
         try:
-            query = '''DELETE FROM categories;'''
+            query = '''DELETE FROM categorie;'''
             self.cur.execute(query)
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount != 0 else 0
