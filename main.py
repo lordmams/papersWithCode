@@ -162,6 +162,72 @@ def getCitationsEdges(id,oid):
 
     return {'response':"Aucune citation trouvée"}
 
+#References Routes
+
+
+@app.route('/api/paperWithCode/references', methods=['GET'])
+def getReferences():
+    referenceC = ReferenceC.References.getReferences()
+    
+    liste_reference = []
+
+    if type(referenceC)==list:
+        for c in referenceC:
+
+            reference = {
+                "id": c.getId(),
+                "reference" : c.getReference(),
+                "publication" : c.getPublication()
+            }
+
+            liste_reference.append(reference)
+
+        return {'response':liste_reference}
+
+    return {'response':"Aucune reference trouvée"}
+
+
+@app.route('/api/paperWithCode/reference/<int:id>', methods=['GET'])
+def getReference(id):
+
+    reference = ReferenceC.References.getReference(referenceId=id)
+    if isinstance(reference, ReferenceM.Reference):
+        return {'response': {
+            "id": reference.getId(),
+            "reference" : reference.getReference(),
+            "publication" : reference.getPublication()
+        }}
+    
+    return {'response': "La reference n'existe pas"}
+
+
+@app.route('/api/paperWithCode/reference/add', methods=['Post'])
+def addReference():
+    reference = request.json.get('reference')
+    publication = request.json.get('publication')
+    if  reference is not None and publication is not None:
+        response = ReferenceC.References.addReference(reference,publication)
+        return  {'response': response}
+    else:
+        return {'response': "Veuillez renseigner la publication de la reference"}
+
+@app.route('/api/paperWithCode/reference/update/<int:id>', methods=['POST'])
+def updateReference(id):
+    reference = request.json.get('reference')
+    publication = request.json.get('publication')
+    if  reference is not None and publication is not None:
+        response = ReferenceC.References.update(id,reference)
+        return  {'response': response}
+    else:
+        return {'response': "Veuillez renseigner la publication de la reference"}
+
+@app.route('/api/paperWithCode/reference/delete/<int:id>', methods=['POST'])
+def deleteReference(id):
+    response = ReferenceC.References.deleteReference(id)
+    return  {'response': response}
+
+
+
 if __name__=='__main__':
 
     # Run flask with the following defaults

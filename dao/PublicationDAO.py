@@ -12,9 +12,13 @@ class PublicationDAO(ModelDAO.modeleDAO):
 
     def create(self, publication)->int:
         try:
-            query = '''INSERT INTO  (id, city,link) 
-                       VALUES (%s, %s, %s);'''
-            self.cur.execute(query, (publication.getPublicationId(), publication.getPublicationCity(), publication.getPublicationLink()))
+            query = '''
+                INSERT INTO publication ( city,link) 
+                SELECT c.name,
+                CASE WHEN c.name = %s THEN VALUES ( c.id, %s)   
+                FROM city c
+                       ;'''
+            self.cur.execute(query, (publication.getPublicationCity(), publication.getPublicationLink()))
             self.cur.connection.commit()
             return self.cur.rowcount if self.cur.rowcount!=0 else 0
         except Exception as e:
@@ -151,9 +155,8 @@ class PublicationDAO(ModelDAO.modeleDAO):
         finally:
             self.cur.close()
 
+
     # DELETE
-
-
     def deleteById(self, publicationId)->int:
         try:
             query = f'''DELETE FROM publication WHERE id = %s;'''

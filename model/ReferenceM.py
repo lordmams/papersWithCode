@@ -1,15 +1,28 @@
 class Reference:
 
     def __init__(self):
-        self.__reference_id: int = None
+        self.__id: int = None
+        self.__publication: str = None
+        self.__reference: str = None
  
 
-    def setReferenceId(self, categoryId: int) -> None:
+    def setId(self, id: int) -> None:
+        self.__id = id
+    
+    def getId(self) -> int:
+        return self.__id
+    def setPublication(self, publication: str) -> None:
+        self.__publication = publication
 
-        self.__reference_id = categoryId
+    def getPublication(self) -> str:
+        return self.__publication
+    
+    def setReference(self, reference: str) -> None:
 
-    def getReferenceId(self) -> int:
+        self.__reference= reference
 
-        return self.__reference_id
+    def getReference(self) -> str:
+
+        return self.__reference
 
    

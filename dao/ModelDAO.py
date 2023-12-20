@@ -37,7 +37,5 @@ class modeleDAO(ABC):
     def deleteById(self, cleSup)->int:
         pass
 
-    @abstractmethod
-    def deleteAll(self)->int:
-        pass
+   
 
