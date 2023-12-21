@@ -42,7 +42,7 @@ class Publications:
         except Exception as e:
             print(f'Error_Publications.addPublication() ::: {e}')
     @staticmethod     
-    def updatePublication(publicationId, changeList):
+    def updatePublication(publicationId, changeList, token=None):
         try:
             publication = PublicationDAO().findIds(publicationId)
             if publication is not None:
@@ -58,20 +58,22 @@ class Publications:
                     cityId = Publications.checkCity(changeList['city'])
                     publication.setPublicationCity(cityId)
 
-                print(publication.getPublicationCity())
-                PublicationDAO().update(publication)
-                return "Publication updated successfully"
+               
+                if token == ModelDAO.modeleDAO.token:
+                    PublicationDAO().update(publication)
+                    return "Publication updated successfully"
             else:
                 return "Error updating publication"
         except Exception as e:
             print(f'Error_Publications.updatePublication() ::: {e}')
     @staticmethod
-    def deletePublication(publicationId):
+    def deletePublication(publicationId, token=None):
         try:
             publication_dao = PublicationDAO()
             publication = publication_dao.findById(publicationId)
-            if publication is not None:
-                PublicationDAO().deleteById(publicationId)
+          
+            if publication is not None and token == ModelDAO.modeleDAO.token:
+                PublicationDAO(0).deleteById(publicationId)
                 return "Publication deleted successfully"
             else:
                 return "Error deleting publication"

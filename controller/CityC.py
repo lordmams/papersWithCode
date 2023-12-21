@@ -1,4 +1,4 @@
-from dao.CityDAO import CityDAO
+from dao.CityDAO import *
 from model import CityM
 
 class Cities:
@@ -39,10 +39,10 @@ class Cities:
             print(f'Error_Cities.addCity() ::: {e}')
 
     @staticmethod
-    def deleteCity(city_id):
+    def deleteCity(city_id,token=None):
         try:
-            city_dao = CityDAO()
-            result = city_dao.deleteById(city_id)
+            if token == ModelDAO.modeleDAO.token:
+                result = CityDAO(0).deleteById(city_id)
 
             if result!= 0:
                 return "city deleted successfully"
@@ -53,16 +53,17 @@ class Cities:
             print(f'Error_Cities.delete_city() ::: {e}')
 
     @staticmethod
-    def updateCity(city_id, name):
+    def updateCity(city_id, name,token=None):
         try:
             city_dao = CityDAO()
             existing_city = city_dao.findById(city_id)
 
             if existing_city:
                 existing_city.setCityName(name)
-                result = CityDAO().update(existing_city)
+                if token == ModelDAO.modeleDAO.token:
+                    result = CityDAO(0).update(existing_city)
 
-                if result!= 0:
+                if result!= 0 :
                     return "city updated successfully"
                 else:
                     return "error updating city"

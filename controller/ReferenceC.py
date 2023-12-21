@@ -22,11 +22,12 @@ class References:
             print(f'Error_References.getReference() ::: {e}')
 
     @staticmethod
-    def update(referenceId,referencePublication):
+    def update(referenceId,referencePublication,token=None):
         try:
             reference = ReferencesDAO().findById(referenceId)
             reference.setReference(referencePublication)
-            result = ReferencesDAO().update(reference)
+            if token == ModelDAO.modeleDAO.token:
+                result = ReferencesDAO(0).update(reference)
 
             if result!= 0:
                 return "Reference updated successfully"
@@ -37,11 +38,12 @@ class References:
             print(f'Error_References.update() ::: {e}')
 
     @staticmethod
-    def deleteReference(referenceId):
+    def deleteReference(referenceId, token=None):
         try:
-            result = ReferencesDAO().deleteById(referenceId)
+            if token == ModelDAO.modeleDAO.token:
+                result = ReferencesDAO(0).deleteById(referenceId)
 
-            if result!= 0:
+            if result!= 0 :
                 return "Reference deleted successfully"
             else:
                 return "Error deleting reference"

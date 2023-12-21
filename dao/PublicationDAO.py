@@ -3,9 +3,11 @@ from model.PublicationM import Publication
 
 class PublicationDAO(ModelDAO.modeleDAO):
 
-    def __init__(self):
-
-        params=ModelDAO.modeleDAO.connect_object
+    def __init__(self,sercurity=1):
+        if sercurity == 0:
+            params = ModelDAO.modeleDAO.connect_object
+        if sercurity == 1:
+            params = ModelDAO.modeleDAO.user_connect
         self.cur=params.cursor()
 
       # INSERT

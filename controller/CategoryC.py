@@ -56,15 +56,15 @@ class Category:
             print(f'Error_Publications.addCategories() ::: {e}')
 
     @staticmethod
-    def updateCategory(categoryId, nameCategory):
+    def updateCategory(categoryId, nameCategory, token=None):
      
         try:
             category_dao = CategoryDAO()
             existing_category = category_dao.findById(categoryId)
 
-            if existing_category:
+            if existing_category and token == ModelDAO.modeleDAO.token:
                 existing_category.setCategoryName(nameCategory)
-                result = CategoryDAO().update(existing_category)
+                result = CategoryDAO(0).update(existing_category)
 
                 if result != 0:
                     return "category updated successfully"
@@ -77,11 +77,11 @@ class Category:
             print(f'Error_Publications.updateCategory() ::: {e}')
 
     @staticmethod
-    def deleteCategory(categoryId):
+    def deleteCategory(categoryId,token=None):
     
         try:
-            category_dao = CategoryDAO()
-            result = category_dao.deleteById(categoryId)
+            if token == ModelDAO.modeleDAO.token: 
+                result = CategoryDAO(0).deleteById(categoryId)
 
             if result != 0:
                 return "category deleted successfully"

@@ -2,9 +2,11 @@ from dao import ModelDAO
 from model.ReferenceM import Reference
 
 class ReferencesDAO(ModelDAO.modeleDAO):
-    def __init__(self):
-
-        params = ModelDAO.modeleDAO.connect_object
+    def __init__(self,sercurity=1):
+        if sercurity == 0:
+            params = ModelDAO.modeleDAO.connect_object
+        if sercurity == 1:
+            params = ModelDAO.modeleDAO.user_connect
         self.cur = params.cursor()
 
     def create(self, reference: Reference) -> int:

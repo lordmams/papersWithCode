@@ -53,18 +53,20 @@ def addCategory():
         return {'response': "Veuillez renseigner le nom de la catégorie"}
   
 
-@app.route('/api/paperWithCode/category/update/<int:id>', methods=['POST'])
+@app.route('/api/paperWithCode/category/<int:id>/update', methods=['POST'])
 def updateCategory(id):
     name = request.json.get('name')
+    token = request.json.get('token')
     if  name is not None:
-        response = CategoryC.Category.updateCategory(id, name)
+        response = CategoryC.Category.updateCategory(id, name,token)
         return  {'response': response}
     else:
         return {'response': "Veuillez renseigner le nom de la catégorie"}
     
-@app.route('/api/paperWithCode/category/delete/<int:id>', methods=['POST'])
+@app.route('/api/paperWithCode/category/<int:id>/delete', methods=['POST'])
 def deleteCategory(id):
-    response = CategoryC.Category.deleteCategory(id)
+    token = request.json.get('token')
+    response = CategoryC.Category.deleteCategory(id,token)
     return  {'response': response}
 
 # Citations Routes
@@ -113,21 +115,24 @@ def addCitation():
     else:
         return {'response': "Veuillez renseigner la publication de la citation"}
     
-@app.route('/api/paperWithCode/citation/update/<int:id>', methods=['POST'])
+@app.route('/api/paperWithCode/citation/<int:id>/update', methods=['POST'])
 def updateCitation(id):
     publication = request.json.get('publication')
     value = request.json.get('value')
+    token = request.json.get('token')
     if  publication is not None and value is not None:
-        response = CitationC.Citations.updateCitation(id, publication)
+        response = CitationC.Citations.updateCitation(id, publication,token)
         return  {'response': response}
     else:
         return {'response': "Veuillez renseigner la publication de la citation"}
 
-@app.route('/api/paperWithCode/citation/delete/<int:id>', methods=['POST'])
+@app.route('/api/paperWithCode/citation/<int:id>/delete', methods=['POST'])
 def deleteCitation(id):
-    response = CitationC.Citations.deleteCitation(id)
+    token = request.json.get('token')
+    response = CitationC.Citations.deleteCitation(id,token)
     return  {'response': response}
-@app.route('/api/paperWithCode/citations/nodes/<int:id>', methods=['GET'])
+
+@app.route('/api/paperWithCode/citation/<int:id>/nodes', methods=['GET'])
 def getCitationsNodes(id):
     print(id)
     citationC = CitationC.Citations.getCitationsNodes(citationId=id)
@@ -148,7 +153,7 @@ def getCitationsNodes(id):
 
     return {'response':"Aucune citation trouvée"}
 
-@app.route('/api/paperWithCode/citations/compare/<int:id>/<int:oid>', methods=['GET'])
+@app.route('/api/paperWithCode/citation/<int:id>compare/<int:oid>', methods=['GET'])
 def getCitationsEdges(id,oid):
     citation = CitationC.Citations.getCompareCitation(citationId=id,compareCitationId=oid)
 
@@ -213,15 +218,17 @@ def addReference():
 @app.route('/api/paperWithCode/reference/<int:id>/update', methods=['POST'])
 def updateReference(id):
     reference = request.json.get('reference')
+    token = request.json.get('token')
     if  reference is not None:
-        response = ReferenceC.References.update(id,reference)
+        response = ReferenceC.References.update(id,reference,token)
         return  {'response': response}
     else:
         return {'response': "Veuillez renseigner la publication de la reference"}
 
 @app.route('/api/paperWithCode/reference/<int:id>/delete', methods=['POST'])
 def deleteReference(id):
-    response = ReferenceC.References.deleteReference(id)
+    token = request.json.get('token')
+    response = ReferenceC.References.deleteReference(id,token)
     return  {'response': response}
 
 # City Routes
@@ -268,19 +275,21 @@ def addCity():
     
 
 
-@app.route('/api/paperWithCode/city/update/<int:id>', methods=['POST'])
+@app.route('/api/paperWithCode/city/<int:id>/update', methods=['POST'])
 def updateCity(id):
     city = request.json.get('city')
+    token = request.json.get('token')
     if  city is not None:
-        response = CityC.Cities.updateCity(id,city)
+        response = CityC.Cities.updateCity(id,city,token)
         return  {'response': response}
     else:
         return {'response': "Veuillez renseigner le nom de la ville"}
     
 
-@app.route('/api/paperWithCode/city/delete/<int:id>', methods=['POST'])
+@app.route('/api/paperWithCode/city/<int:id>/delete', methods=['POST'])
 def deleteCity(id):
-    response = CityC.Cities.deleteCity(id)
+    token = request.json.get('token')
+    response = CityC.Cities.deleteCity(id, token)
     return  {'response': response}
 
 # Publications Routes
@@ -338,6 +347,7 @@ def updatePublication(id):
     link = request.json.get('link')
     city = request.json.get('city')
     category = request.json.get('category')
+    token = request.json.get('token')
 
     if  link is not None or city is not None or category is not None:  
         publication = {
@@ -345,7 +355,7 @@ def updatePublication(id):
             "city" : city,
             "category" : category
         }
-        response = PublicationC.Publications.updatePublication(id,publication)
+        response = PublicationC.Publications.updatePublication(id,publication,token)
         return  {'response': response}
     else:
         return {'response': "Veuillez au moins modifier l'un des champs le lien, la ville ou la catégorie de la publication"}
@@ -353,7 +363,8 @@ def updatePublication(id):
 
 @app.route('/api/paperWithCode/publication/<int:id>/delete', methods=['POST'])
 def deletePublication(id):
-    response = PublicationC.Publications.deletePublication(id)
+    token = request.json.get('token')
+    response = PublicationC.Publications.deletePublication(id,token)
     return  {'response': response}
 
 @app.route('/api/paperWithCode/publication/<int:id>/citations', methods=['GET'])

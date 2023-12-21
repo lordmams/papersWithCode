@@ -35,11 +35,12 @@ class Citations:
         except Exception as e:
             print(f'Error_Citations.addCitation() ::: {e}')
     @staticmethod
-    def updateCitation( citationPublication, citationId):
+    def updateCitation( citationPublication, citationId,token=None):
         try:
             citation = CitationDAO.findById(citationId)
             citation.setCitationPublication(citationPublication)
-            result = CitationDAO().update(citation)
+            if token == ModelDAO.modeleDAO.token:
+                result = CitationDAO(0).update(citation)
 
             if result!= 0:
                 return "Citation updated successfully"
@@ -50,9 +51,10 @@ class Citations:
             print(f'Error_Citations.updateCitation() ::: {e}')
 
     @staticmethod
-    def deleteCitation(citationId):
+    def deleteCitation(citationId, token=None):
         try:
-            result = CitationDAO().deleteById(citationId)
+            if token == ModelDAO.modeleDAO.token:
+                result = CitationDAO(0).deleteById(citationId)
 
             if result!= 0:
                 return "Citation deleted successfully"

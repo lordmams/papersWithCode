@@ -4,7 +4,9 @@ from dao.ConnexionDAO import ConnexionBD
 class modeleDAO(ABC):
 
     connect_object = ConnexionBD().getConnexion()
-
+    user_connect = ConnexionBD().getUserConnection()
+    token = ConnexionBD().getToken()
+  
     ### CRUD
 
     # INSERT
