@@ -60,7 +60,7 @@ class Publications:
 
                
                 if token == ModelDAO.modeleDAO.token:
-                    PublicationDAO().update(publication)
+                    PublicationDAO(0).update(publication)
                     return "Publication updated successfully"
             else:
                 return "Error updating publication"
@@ -107,6 +107,33 @@ class Publications:
         except Exception as e:
             print(f'Error_Publications.findPublicationCitations() ::: {e}')
 
+    @staticmethod
+    def getPublicationByLink(link):
+        try:
+            publication_dao = PublicationDAO()
+            publications = publication_dao.findByLink(link)
+            return publications
+        except Exception as e:
+            print(f'Error_Publications.findPublicationByLink() ::: {e}')
+
+    @staticmethod
+    def getPublicationByCategory(categoryId):
+        try:
+            publication_dao = PublicationDAO()
+            publications = publication_dao.findByCategory(categoryId)
+            return publications
+        except Exception as e:
+            print(f'Error_Publications.findPublicationByCategory() ::: {e}')
+
+    @staticmethod
+    def getPublicationByCity(cityId):
+        try:
+            publication_dao = PublicationDAO()
+            publications = publication_dao.findByCity(cityId)
+            return publications
+        except Exception as e:
+            print(f'Error_Publications.findPublicationByCity() ::: {e}')
+    
     def checkCategory(categoryName):
         category = CategoryC.Category.getCategoryByName(categoryName)
         if category is None :

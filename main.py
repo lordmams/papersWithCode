@@ -409,7 +409,67 @@ def getPublicationIsReference(id):
         return {'response':liste_publication}
     
     return {'response': "La publication n'a jamais été référencer"}
-           
+
+@app.route('/api/paperWithCode/publications/<int:id>/city', methods=['GET'])
+def getPublicationCity(id):
+    publicationC = PublicationC.Publications.getPublicationByCity(id)
+    liste_publication = []
+    if type(publicationC)==list:
+        for p in publicationC:
+
+            publication = {
+                "id": p.getPublicationId(),
+                "link" : p.getPublicationLink(),
+                "category" : p.getPublicationCategory(),
+                "city" : p.getPublicationCity(),
+            }
+
+            liste_publication.append(publication)
+
+        return {'response':liste_publication}
+
+    return {'response': "La ville ne possède pas de publication"}
+
+@app.route('/api/paperWithCode/publications/<int:id>/category', methods=['GET'])
+def getPublicationCategory(id):
+    publicationC = PublicationC.Publications.getPublicationByCategory(id)
+    liste_publication = []
+    if type(publicationC)==list:
+        for p in publicationC:
+
+            publication = {
+                "id": p.getPublicationId(),
+                "link" : p.getPublicationLink(),
+                "category" : p.getPublicationCategory(),
+                "city" : p.getPublicationCity(),
+            }
+
+            liste_publication.append(publication)
+
+        return {'response':liste_publication}
+    
+    return {'response': "La catégorie ne possède pas de publication"}
+
+@app.route('/api/paperWithCode/publications/links', methods=['POST'])
+def getPublicationByLink():
+    link = request.json.get('link')
+    publicationC = PublicationC.Publications.getPublicationByLink(link)
+    liste_publication = []
+    if type(publicationC)==list:
+        for p in publicationC:
+
+            publication = {
+                "id": p.getPublicationId(),
+                "link" : p.getPublicationLink(),
+                "category" : p.getPublicationCategory(),
+                "city" : p.getPublicationCity(),
+            }
+
+            liste_publication.append(publication)
+
+        return {'response':liste_publication}
+    
+    return {'response': "Aucune publication trouvée"}
 
 if __name__=='__main__':
 

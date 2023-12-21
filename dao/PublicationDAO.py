@@ -240,13 +240,13 @@ class PublicationDAO(ModelDAO.modeleDAO):
                             join categorie cat on p.category = cat.id
                             join city on p.city = city.id
                         WHERE
-                            p.link ~ '%s'
+                            p.link ~ %s
                             group by
                             p.id,
                             cat.name,
                             city.name;'''
             self.cur.execute(query, (link,))
-            res = self.cur.fetchone()
+            res = self.cur.fetchall()
             
             liste_p = []
             if len(res)>0:
